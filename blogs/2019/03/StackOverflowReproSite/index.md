@@ -23,7 +23,7 @@ In order to repro the Stack Overflow exception in the site, we can browse `/Repr
 
 ![Error Page](error-page.jpg)
 
-The backend code is straight forward. You can read it [here](https://github.com/4lowTheRabbit/LabHighCpuCoreSite/blob/master/LabHighCpuCoreSite/Controllers/ReproController.cs).
+The backend code is straight forward. You can read it [here](https://github.com/lancenty/StackOverflowReproSite/blob/master/StackOverflow/Controllers/ReproController.cs).
 
 ## Profile the .Net core process
 On the Azure portal, in the **"Diagnose and Solve Problems" (DaaS)** blade, in the **"Diagnostic Tools"** tile, let's click **"Profiler"**.
