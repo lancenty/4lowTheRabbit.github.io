@@ -1,7 +1,7 @@
 # Workshop - How to Capture Stack Overflow Exception
 ## Environment setup
 
-First of all, click the [Deploy to Azure](https://github.com/4lowTheRabbit/StackOverflowReproSite) button on the README page of [this workshop's GitHub repository](https://github.com/4lowTheRabbit/StackOverflowReproSite).
+First of all, click the [Deploy to Azure](https://github.com/lancenty/StackOverflowReproSite) button on the README page of [this workshop's GitHub repository](https://github.com/lancenty/StackOverflowReproSite).
 
 ![The deploy to azure button](the-deploy-to-azure-button.png)
 
@@ -15,19 +15,15 @@ After the deployment is done, a resource group will be created with the followin
 
 ![Resources](resources.jpg)
 
-In order to repro the high CPU issue in the site, we can browse `/repro/` of the site. It will do an infinite loop, which will cause high CPU on the server, until the page times out. We will see the page is loading long and finally a 500 error page in the browser.
+In order to repro the Stack Overflow exception in the site, we can browse `/Repro/StackOverflow` of the site, or use the StackOverflow tab on top navbar.
 
->Interestingly that the 500 page shows `"The specified CGI application encountered an error and the server terminated the process."`, but actually the dotnet.exe process is not terminated. You can open Kudu and observe its process ID is not changed in Process Explorer. The error message on the page is just too generic to be true, like many others.
+![Repro](repro.jpg)
+
+ It will do an infinite recursion, which will cause the site to crash immediately. We will see the page loading and then 502 error page in the browser.
 
 ![Error Page](error-page.jpg)
 
-To stop the loading page, browse `/repro/disable`, so that it will exit the loop and return immediately. Further requests to the page will return immediately too.
-
-To enable the infinite loop in the page again, we can browse `/repro/enable` and then browse `/repro/`.
-
 The backend code is straight forward. You can read it [here](https://github.com/4lowTheRabbit/LabHighCpuCoreSite/blob/master/LabHighCpuCoreSite/Controllers/ReproController.cs).
-
->Note: Since .Net Core 2.2, the ASP.Net core web application is no longer hosted in dotnet.exe, instead it is hosted [in-process](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/servers/index?view=aspnetcore-2.2&tabs=windows#in-process-hosting-model) in w3wp.exe by default. This is because the original aspNetCore module in web.config has been replaced by the new AspNetCoreModuleV2 module.
 
 ## Profile the .Net core process
 On the Azure portal, in the **"Diagnose and Solve Problems" (DaaS)** blade, in the **"Diagnostic Tools"** tile, let's click **"Profiler"**.
